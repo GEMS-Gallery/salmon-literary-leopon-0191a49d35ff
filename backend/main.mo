@@ -81,41 +81,11 @@ actor {
     investments
   };
 
-  // Update call to add a new transaction
-  public func addTransaction(amount : Int, description : Text) : async Result.Result<(), Text> {
-    if (amount == 0) {
-      return #err("Amount cannot be zero");
-    };
-    balance += amount;
-    let transaction : Transaction = {
-      amount = amount;
-      description = description;
-      timestamp = Time.now();
-    };
-    transactions := Array.append(transactions, [transaction]);
-    updateExpensesData(description, amount);
-    #ok()
-  };
-
-  // Update call to add a new investment
-  public func addInvestment(name : Text, value : Int, trend : Float) : async Result.Result<(), Text> {
-    if (value <= 0) {
-      return #err("Investment value must be positive");
-    };
-    let investment : Investment = {
-      name = name;
-      value = value;
-      trend = trend;
-    };
-    investments := Array.append(investments, [investment]);
-    #ok()
-  };
-
-  // Helper function to update expenses data
+  // Helper function to update expenses data (simplified for demo)
   private func updateExpensesData(category : Text, amount : Int) {
     expensesData := Array.map(expensesData, func (expense : ExpenseCategory) : ExpenseCategory {
       if (expense.category == category) {
-        { category = expense.category; amount = expense.amount + Int.abs(amount) }
+        { category = expense.category; amount = expense.amount + amount }
       } else {
         expense
       }

@@ -1,6 +1,5 @@
 export const idlFactory = ({ IDL }) => {
-  const Result_1 = IDL.Variant({ 'ok' : IDL.Int, 'err' : IDL.Text });
-  const Result = IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text });
+  const Result = IDL.Variant({ 'ok' : IDL.Int, 'err' : IDL.Text });
   const ExpenseCategory = IDL.Record({
     'category' : IDL.Text,
     'amount' : IDL.Int,
@@ -16,9 +15,7 @@ export const idlFactory = ({ IDL }) => {
     'amount' : IDL.Int,
   });
   return IDL.Service({
-    'addFunds' : IDL.Func([IDL.Int], [Result_1], []),
-    'addInvestment' : IDL.Func([IDL.Text, IDL.Int, IDL.Float64], [Result], []),
-    'addTransaction' : IDL.Func([IDL.Int, IDL.Text], [Result], []),
+    'addFunds' : IDL.Func([IDL.Int], [Result], []),
     'getBalance' : IDL.Func([], [IDL.Int], ['query']),
     'getExpensesData' : IDL.Func([], [IDL.Vec(ExpenseCategory)], ['query']),
     'getInvestments' : IDL.Func([], [IDL.Vec(Investment)], ['query']),

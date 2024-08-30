@@ -8,9 +8,7 @@ export interface Investment {
   'value' : bigint,
   'name' : string,
 }
-export type Result = { 'ok' : null } |
-  { 'err' : string };
-export type Result_1 = { 'ok' : bigint } |
+export type Result = { 'ok' : bigint } |
   { 'err' : string };
 export interface Transaction {
   'description' : string,
@@ -18,9 +16,7 @@ export interface Transaction {
   'amount' : bigint,
 }
 export interface _SERVICE {
-  'addFunds' : ActorMethod<[bigint], Result_1>,
-  'addInvestment' : ActorMethod<[string, bigint, number], Result>,
-  'addTransaction' : ActorMethod<[bigint, string], Result>,
+  'addFunds' : ActorMethod<[bigint], Result>,
   'getBalance' : ActorMethod<[], bigint>,
   'getExpensesData' : ActorMethod<[], Array<ExpenseCategory>>,
   'getInvestments' : ActorMethod<[], Array<Investment>>,
