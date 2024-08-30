@@ -1,14 +1,351 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+    --primary-color: #6366f1;
+    --secondary-color: #a855f7;
+    --background-color: #f8fafc;
+    --text-color: #334155;
+    --card-bg: #ffffff;
+    --accent-color: #10b981;
+    --error-color: #ef4444;
+}
 
 body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #f8fafc;
-  color: #334155;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+}
+
+.sidebar {
+    width: 80px;
+    background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+    padding: 20px 10px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: width 0.3s ease;
+}
+
+.sidebar:hover {
+    width: 200px;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.logo i {
+    font-size: 32px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    transition: all 0.3s;
+    width: 100%;
+}
+
+.nav-item:hover, .nav-item.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.nav-item i {
+    font-size: 24px;
+    width: 24px;
+    text-align: center;
+}
+
+.nav-item span {
+    margin-left: 12px;
+    display: none;
+    white-space: nowrap;
+}
+
+.sidebar:hover .nav-item span {
+    display: inline;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.greeting {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: var(--card-bg);
+    border-radius: 25px;
+    padding: 8px 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    background: transparent;
+    margin-left: 10px;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.card h2 i {
+    margin-right: 12px;
+    font-size: 24px;
+}
+
+.balance {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 15px 0;
+    color: var(--text-color);
+}
+
+.chart-container {
+    position: relative;
+    height: 250px;
+    width: 100%;
+}
+
+button {
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    margin-top: 20px;
+}
+
+th, td {
+    text-align: left;
+    padding: 15px;
+}
+
+th {
+    background-color: #f1f5f9;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+tr {
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+tr:hover {
+    transform: translateY(-2px);
+}
+
+.transaction-amount {
+    font-weight: bold;
+}
+
+.positive {
+    color: var(--accent-color);
+}
+
+.negative {
+    color: var(--error-color);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 16px;
+    width: 350px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: var(--text-color);
+}
+
+#addFundsForm input {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.savings-goal {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.savings-goal-bar {
+    flex-grow: 1;
+    height: 12px;
+    background-color: #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-right: 15px;
+}
+
+.savings-goal-progress {
+    height: 100%;
+    background: linear-gradient(to right, var(--accent-color), #34d399);
+    width: 0%;
+    transition: width 0.5s ease-in-out;
+}
+
+.investment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.investment-item:last-child {
+    border-bottom: none;
+}
+
+.investment-name {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.investment-name i {
+    margin-right: 10px;
+    font-size: 20px;
+    color: var(--primary-color);
+}
+
+.investment-value {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.trend-up, .trend-down {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.trend-up {
+    color: var(--accent-color);
+}
+
+.trend-down {
+    color: var(--error-color);
+}
+
+.trend-up i, .trend-down i {
+    margin-right: 5px;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
 }

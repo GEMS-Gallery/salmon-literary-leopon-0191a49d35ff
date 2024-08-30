@@ -1,13 +1,19 @@
 type Transaction = 
  record {
    amount: int;
-   description: opt text;
+   description: text;
    timestamp: int;
  };
 type Result = 
  variant {
    err: text;
    ok: int;
+ };
+type Investment = 
+ record {
+   name: text;
+   trend: float64;
+   value: int;
  };
 type ExpenseCategory = 
  record {
@@ -18,5 +24,7 @@ service : {
   addFunds: (int) -> (Result);
   getBalance: () -> (int) query;
   getExpensesData: () -> (vec ExpenseCategory) query;
+  getInvestments: () -> (vec Investment) query;
   getRecentTransactions: () -> (vec Transaction) query;
+  getSavingsGoalData: () -> (int, int) query;
 }

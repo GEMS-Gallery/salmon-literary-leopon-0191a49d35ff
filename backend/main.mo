@@ -7,25 +7,38 @@ import Text "mo:base/Text";
 
 actor {
   // Stable variables
-  stable var balance : Int = 0;
+  stable var balance : Int = 1000000; // $10,000.00 in cents
   stable var transactions : [Transaction] = [];
   stable var expensesData : [ExpenseCategory] = [
-    { category = "Food"; amount = 0 },
-    { category = "Transport"; amount = 0 },
-    { category = "Entertainment"; amount = 0 },
-    { category = "Bills"; amount = 0 }
+    { category = "Food"; amount = 30000 },
+    { category = "Transport"; amount = 20000 },
+    { category = "Entertainment"; amount = 15000 },
+    { category = "Bills"; amount = 35000 }
+  ];
+  stable var savingsGoal : Int = 1000000; // $10,000.00 in cents
+  stable var currentSavings : Int = 500000; // $5,000.00 in cents
+  stable var investments : [Investment] = [
+    { name = "Tech Stock ETF"; value = 250000; trend = 5.2 },
+    { name = "Real Estate Fund"; value = 180000; trend = -1.8 },
+    { name = "Cryptocurrency"; value = 50000; trend = 12.5 }
   ];
 
   // Types
   type Transaction = {
     amount : Int;
-    description : ?Text;
+    description : Text;
     timestamp : Int;
   };
 
   type ExpenseCategory = {
     category : Text;
     amount : Int;
+  };
+
+  type Investment = {
+    name : Text;
+    value : Int;
+    trend : Float;
   };
 
   // Query to get current balance
@@ -41,7 +54,7 @@ actor {
     balance += amount;
     let transaction : Transaction = {
       amount = amount;
-      description = ?"Added funds";
+      description = "Added funds";
       timestamp = Time.now();
     };
     transactions := Array.append(transactions, [transaction]);
@@ -56,6 +69,16 @@ actor {
   // Query to get expenses data
   public query func getExpensesData() : async [ExpenseCategory] {
     expensesData
+  };
+
+  // Query to get savings goal data
+  public query func getSavingsGoalData() : async (Int, Int) {
+    (currentSavings, savingsGoal)
+  };
+
+  // Query to get investments data
+  public query func getInvestments() : async [Investment] {
+    investments
   };
 
   // Helper function to update expenses data (simplified for demo)
