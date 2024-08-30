@@ -1,0 +1,22 @@
+type Transaction = 
+ record {
+   amount: int;
+   description: opt text;
+   timestamp: int;
+ };
+type Result = 
+ variant {
+   err: text;
+   ok: int;
+ };
+type ExpenseCategory = 
+ record {
+   amount: int;
+   category: text;
+ };
+service : {
+  addFunds: (int) -> (Result);
+  getBalance: () -> (int) query;
+  getExpensesData: () -> (vec ExpenseCategory) query;
+  getRecentTransactions: () -> (vec Transaction) query;
+}
