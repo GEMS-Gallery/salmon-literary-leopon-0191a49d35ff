@@ -263,7 +263,7 @@ tr:hover {
     color: var(--text-color);
 }
 
-#addFundsForm input {
+#addFundsForm input, #addTransactionForm input, #addInvestmentForm input {
     width: 100%;
     padding: 12px;
     margin: 15px 0;

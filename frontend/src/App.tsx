@@ -8,6 +8,10 @@ const App: React.FC = () => {
   const [savingsGoal, setSavingsGoal] = useState<{current: number, goal: number}>({current: 0, goal: 0});
   const [investments, setInvestments] = useState<any[]>([]);
   const [amount, setAmount] = useState('');
+  const [transactionDescription, setTransactionDescription] = useState('');
+  const [investmentName, setInvestmentName] = useState('');
+  const [investmentValue, setInvestmentValue] = useState('');
+  const [investmentTrend, setInvestmentTrend] = useState('');
 
   useEffect(() => {
     fetchData();
@@ -43,13 +47,40 @@ const App: React.FC = () => {
     }
   };
 
-  const openModal = () => {
-    const modal = document.getElementById('addFundsModal');
+  const handleAddTransaction = async () => {
+    if (amount && transactionDescription) {
+      const result = await backend.addTransaction(BigInt(Math.floor(Number(amount) * 100)), transactionDescription);
+      if ('ok' in result) {
+        setAmount('');
+        setTransactionDescription('');
+        fetchData();
+      } else {
+        alert('Error adding transaction: ' + result.err);
+      }
+    }
+  };
+
+  const handleAddInvestment = async () => {
+    if (investmentName && investmentValue && investmentTrend) {
+      const result = await backend.addInvestment(investmentName, BigInt(Math.floor(Number(investmentValue) * 100)), Number(investmentTrend));
+      if ('ok' in result) {
+        setInvestmentName('');
+        setInvestmentValue('');
+        setInvestmentTrend('');
+        fetchData();
+      } else {
+        alert('Error adding investment: ' + result.err);
+      }
+    }
+  };
+
+  const openModal = (modalId: string) => {
+    const modal = document.getElementById(modalId);
     if (modal) modal.style.display = 'block';
   };
 
-  const closeModal = () => {
-    const modal = document.getElementById('addFundsModal');
+  const closeModal = (modalId: string) => {
+    const modal = document.getElementById(modalId);
     if (modal) modal.style.display = 'none';
   };
 
@@ -155,7 +186,7 @@ const App: React.FC = () => {
           <div className="card">
             <h2><i className="fas fa-wallet"></i> Total Balance</h2>
             <div className="balance" id="balance">${(balance / 100).toFixed(2)}</div>
-            <button onClick={openModal}><i className="fas fa-plus"></i> Add Funds</button>
+            <button onClick={() => openModal('addFundsModal')}><i className="fas fa-plus"></i> Add Funds</button>
           </div>
           <div className="card">
             <h2><i className="fas fa-chart-pie"></i> Expenses</h2>
@@ -183,6 +214,7 @@ const App: React.FC = () => {
 
         <div className="card" style={{marginTop: '25px'}}>
           <h2><i className="fas fa-exchange-alt"></i> Recent Transactions</h2>
+          <button onClick={() => openModal('addTransactionModal')}><i className="fas fa-plus"></i> Add Transaction</button>
           <table id="transactionsTable">
             <thead>
               <tr>
@@ -207,6 +239,7 @@ const App: React.FC = () => {
 
         <div className="card" style={{marginTop: '25px'}}>
           <h2><i className="fas fa-chart-line"></i> Investments</h2>
+          <button onClick={() => openModal('addInvestmentModal')}><i className="fas fa-plus"></i> Add Investment</button>
           <div id="investmentsList">
             {investments.map((investment, index) => (
               <div key={index} className="investment-item">
@@ -226,10 +259,35 @@ const App: React.FC = () => {
 
       <div id="addFundsModal" className="modal">
         <div className="modal-content">
-          <span className="close" onClick={closeModal}>&times;</span>
+          <span className="close" onClick={() => closeModal('addFundsModal')}>&times;</span>
           <h2><i className="fas fa-plus-circle"></i> Add Funds</h2>
           <form id="addFundsForm" onSubmit={(e) => { e.preventDefault(); handleAddFunds(); }}>
             <input type="number" id="fundAmount" placeholder="Enter amount" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+            <button type="submit"><i className="fas fa-check"></i> Add</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="addTransactionModal" className="modal">
+        <div className="modal-content">
+          <span className="close" onClick={() => closeModal('addTransactionModal')}>&times;</span>
+          <h2><i className="fas fa-plus-circle"></i> Add Transaction</h2>
+          <form id="addTransactionForm" onSubmit={(e) => { e.preventDefault(); handleAddTransaction(); }}>
+            <input type="number" placeholder="Enter amount" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+            <input type="text" placeholder="Enter description" value={transactionDescription} onChange={(e) => setTransactionDescription(e.target.value)} required />
+            <button type="submit"><i className="fas fa-check"></i> Add</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="addInvestmentModal" className="modal">
+        <div className="modal-content">
+          <span className="close" onClick={() => closeModal('addInvestmentModal')}>&times;</span>
+          <h2><i className="fas fa-plus-circle"></i> Add Investment</h2>
+          <form id="addInvestmentForm" onSubmit={(e) => { e.preventDefault(); handleAddInvestment(); }}>
+            <input type="text" placeholder="Enter investment name" value={investmentName} onChange={(e) => setInvestmentName(e.target.value)} required />
+            <input type="number" placeholder="Enter investment value" value={investmentValue} onChange={(e) => setInvestmentValue(e.target.value)} required />
+            <input type="number" placeholder="Enter trend percentage" value={investmentTrend} onChange={(e) => setInvestmentTrend(e.target.value)} required />
             <button type="submit"><i className="fas fa-check"></i> Add</button>
           </form>
         </div>

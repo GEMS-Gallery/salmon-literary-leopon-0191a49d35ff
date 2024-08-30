@@ -4,10 +4,15 @@ type Transaction =
    description: text;
    timestamp: int;
  };
-type Result = 
+type Result_1 = 
  variant {
    err: text;
    ok: int;
+ };
+type Result = 
+ variant {
+   err: text;
+   ok;
  };
 type Investment = 
  record {
@@ -21,7 +26,9 @@ type ExpenseCategory =
    category: text;
  };
 service : {
-  addFunds: (int) -> (Result);
+  addFunds: (int) -> (Result_1);
+  addInvestment: (text, int, float64) -> (Result);
+  addTransaction: (int, text) -> (Result);
   getBalance: () -> (int) query;
   getExpensesData: () -> (vec ExpenseCategory) query;
   getInvestments: () -> (vec Investment) query;
